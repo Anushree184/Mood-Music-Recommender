@@ -85,15 +85,21 @@ if st.button("✨ Get My Playlist"):
     if user_input.strip() == "":
         st.warning("⚠️ Please tell me your mood first")
     else:
-        input_vec = vectorizer.transform([user_input])
-        result = model.predict(input_vec)
+        user_input = user_input.lower().strip()
 
-        mood_map = {
-            0: '😔 Sad',
-            1: '😄 Happy',
-            2: '😌 Calm',
-            3: '⚡ Energetic'
+        mood_map_reverse = {
+            'sad': 0,
+            'happy': 1,
+            'calm': 2,
+            'energetic': 3
         }
+
+        if user_input in mood_map_reverse:
+            result = [mood_map_reverse[user_input]]
+        else:
+            st.warning("Please enter: sad, happy, calm, energetic")
+            st.stop()
+        mood_map = {0: '😔 Sad',1: '😄 Happy',2: '😌 Calm',3: '⚡ Energetic'}
 
         detected_mood = mood_map[result[0]]
 
